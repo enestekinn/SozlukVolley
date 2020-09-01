@@ -28,10 +28,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity  implements SearchView.OnQueryTextListener {
+
     Toolbar toolbar;
     RecyclerView rv;
- private ArrayList<Kelimeler> kelimelerArrayList;
+    private ArrayList<Kelimeler> kelimelerArrayList;
     private  KelimelerAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,20 +47,18 @@ public class MainActivity extends AppCompatActivity  implements SearchView.OnQue
 
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(this));
-
-tumKelimeler();
-
-
+        tumKelimeler();
     }
 
 
+    // Menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu,menu);
 
         MenuItem menuItem = menu.findItem(R.id.action_search);
         SearchView searchView =(SearchView) menuItem.getActionView();
-searchView.setOnQueryTextListener(this);
+        searchView.setOnQueryTextListener(this);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -73,8 +73,8 @@ searchView.setOnQueryTextListener(this);
     @Override
     public boolean onQueryTextChange(String newText) {
 
-System.out.println("Burasi calisti");
-kelimeAra(newText);
+        System.out.println("Burasi calisti");
+        kelimeAra(newText);
         return false;
     }
 
@@ -86,27 +86,23 @@ kelimeAra(newText);
             public void onResponse(String response) {
                 System.out.println(response);
                 kelimelerArrayList = new ArrayList<>();
-
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     JSONArray kelimeler = jsonObject.getJSONArray("kelimeler");
-
                     for (int i = 0 ; i<kelimeler.length() ; i++) {
-                         JSONObject k = kelimeler.getJSONObject(i);
+                        JSONObject k = kelimeler.getJSONObject(i);
 
-                         int kelime_id = k.getInt("kelime_id");
-                         String ingilizce = k.getString("ingilizce");
-                         String  turkce = k.getString("turkce");
+                        int kelime_id = k.getInt("kelime_id");
+                        String ingilizce = k.getString("ingilizce");
+                        String  turkce = k.getString("turkce");
 
-                         Kelimeler kelimelerListe = new Kelimeler(kelime_id,ingilizce,turkce);
+                        Kelimeler kelimelerListe = new Kelimeler(kelime_id,ingilizce,turkce);
 
                         kelimelerArrayList.add(kelimelerListe);
                     }
 
                     adapter = new KelimelerAdapter(MainActivity.this,kelimelerArrayList);
                     rv.setAdapter(adapter);
-
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -135,7 +131,6 @@ kelimeAra(newText);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     JSONArray kelimeler = jsonObject.getJSONArray("kelimeler");
-
                     for (int i = 0 ; i<kelimeler.length() ; i++) {
                         JSONObject k = kelimeler.getJSONObject(i);
 
@@ -151,22 +146,16 @@ kelimeAra(newText);
                     adapter = new KelimelerAdapter(MainActivity.this,kelimelerArrayList);
                     rv.setAdapter(adapter);
 
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-
             }
         }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError error) {
+            public void onErrorResponse(VolleyError error) { }
+        })
 
-
-
-            }
-        }){
+        {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map map = new HashMap();
@@ -177,11 +166,4 @@ kelimeAra(newText);
 
         Volley.newRequestQueue(MainActivity.this).add(istek);
     }
-
-
-
-
-
-
-
 }

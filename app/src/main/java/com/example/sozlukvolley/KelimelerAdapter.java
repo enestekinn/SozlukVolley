@@ -15,9 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class KelimelerAdapter extends RecyclerView.Adapter<KelimelerAdapter.CardviewNesneTutucu>  {
+
     private Context mContext;
     private ArrayList<Kelimeler> kelimelerListesi;
-
 
     public KelimelerAdapter(Context mContext, ArrayList<Kelimeler> kelimelerListesi) {
         this.mContext = mContext;
@@ -66,7 +66,4 @@ public class KelimelerAdapter extends RecyclerView.Adapter<KelimelerAdapter.Card
     public int getItemCount() {
         return kelimelerListesi.size();
     }
-
-
-
 }
